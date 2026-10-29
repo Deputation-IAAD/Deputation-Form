@@ -880,26 +880,6 @@
       document.getElementById('addExam').addEventListener('click',()=>addRow('examContainer',true));
       addRow('expContainer');
       addRow('examContainer', true);
-
-      // 📅 Registration Expiry Check
-      const EXPIRY_DATE_STR = "2026-05-02";
-      function checkRegistrationStatus() {
-        const expiry = new Date(EXPIRY_DATE_STR + "T23:59:59");
-        if (new Date() > expiry) {
-          const formWrap = document.getElementById('depForm');
-          if (formWrap) {
-            formWrap.innerHTML = `
-              <div style="background:#fef2f2; border: 2px solid #ef4444; border-radius: 12px; padding: 40px 20px; text-align: center; margin: 20px 0;">
-                <div style="font-size: 50px; margin-bottom: 12px;">⛔</div>
-                <h2 style="color: #b91c1c; margin: 0 0 10px; font-size: 26px; font-weight: 800;">Registration is Closed</h2>
-                <p style="color: #4b5563; font-size: 16px; margin: 0;">The last date for deputation application submission (${EXPIRY_DATE_STR}) has passed. Submissions are no longer accepted.</p>
-              </div>
-            `;
-          }
-        }
-      }
-      checkRegistrationStatus();
-
       function computeYearsInGrade(){
         const asOn = document.getElementById('asOnDate').value;
         const promoDate = document.getElementById('dateSAO').value;
