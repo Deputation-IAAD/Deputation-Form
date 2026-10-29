@@ -46,13 +46,11 @@
     .ss-option:hover { background: #f0f4ff; }
     .toast { position: fixed; top: 24px; right: 24px; background: #10b981; color: #fff; padding: 14px 20px; border-radius: 8px; box-shadow: 0 10px 30px rgba(16,185,129,0.3); opacity: 0; transform: translateY(-20px); transition: all 0.3s ease; z-index: 99999; font-weight: 600; }
     .toast.show { opacity: 1; transform: translateY(0); }
-
-    /* File preview card */
     .file-preview { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #f3f4f6; border: 1px dashed #cbd5e1; border-radius: 8px; margin-top: 8px; }
     .file-preview img { width: 44px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #d1d5db; background: #fff; }
     .file-preview .sig-thumb { height: 35px; width: 70px; object-fit: contain; }
 
-    /* ===== SAVING PROGRESS OVERLAY ===== */
+  
     #savingOverlay {
       position: fixed; inset: 0; z-index: 999999;
       background: rgba(15, 10, 30, 0.72);
@@ -127,7 +125,7 @@
     }
     .progress-step.done .step-dot { border-color: #10b981; background: #10b981; color: #fff; }
 
-    /* PRINT VIEW STYLES */
+    
     #printView { background: #fff; padding: 40px; border-radius: 10px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
     .pv-banner { background: #e0f2fe; border: 1px solid #bae6fd; padding: 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
     .pv-header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 15px; border-bottom: 2px solid #e5e7eb; margin-bottom: 0; }
@@ -396,12 +394,8 @@
   <div id="toast" class="toast"></div>
 
   <script>
-    // =========================================================================
-    // ⚙️ GOOGLE APPS SCRIPT WEB APP URL
-    // =========================================================================
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwojSdOXvArDE51FqUMgyVhyPtWQabiOxdC5du4PYFe6f0VfK4ncJGOCPdnlA-jAvqe/exec";
 
-    // ── Universal google.script.run Polyfill for GitHub Pages / External Web ──
     if (!window.google || !window.google.script || !window.google.script.run) {
         window.google = window.google || {};
         window.google.script = window.google.script || {};
@@ -422,7 +416,7 @@
 
             async _call(action, payload) {
                 if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes("YOUR_APPS_SCRIPT_WEB_APP_URL_HERE")) {
-                    const err = new Error("⚠️ APPS_SCRIPT_URL configure nahi hai! Kripya index.html me deployed Apps Script URL dalein.");
+                    const err = new Error("⚠️ URL Not configure nahi hai!");
                     if (this._failure) this._failure(err);
                     else alert(err.message);
                     return;
@@ -479,7 +473,6 @@
     let emailVerifyToken = '';
     let otpTimer = null;
 
-    // Helper: HTML Sanitizer to prevent XSS
     function esc(s) {
       if (s === null || s === undefined) return '';
       return String(s)
@@ -490,7 +483,6 @@
         .replace(/'/g, '&#39;');
     }
 
-    // ===== PROGRESS OVERLAY CONTROLS =====
     const overlay = document.getElementById('savingOverlay');
     const progressFill = document.getElementById('progressFill');
     const progressPct = document.getElementById('progressPct');
@@ -1086,7 +1078,6 @@
           submitBtn.disabled = true;
           submitBtn.textContent = 'Saving...';
 
-          // ---- PROGRESS OVERLAY ----
           showProgress();
           setStep(0); animateTo(15, 400);
 
