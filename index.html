@@ -587,7 +587,7 @@
       setTimeout(() => hideProgress(), 2200);
     }
 
-    // ===== RESET FORM FUNCTION FOR NEW ENTRY =====
+
     function resetFormForNewEntry() {
       if (!confirm("Are you sure you want to fill a new application? Current view will be reset.")) {
         return;
@@ -596,7 +596,6 @@
       const form = document.getElementById('depForm');
       form.reset();
 
-      // Reset email verification state
       isEmailVerified = false;
       emailVerifyToken = '';
       if (otpTimer) { clearInterval(otpTimer); otpTimer = null; }
@@ -615,50 +614,35 @@
       emailStatus.innerHTML = '';
       emailOtpSection.classList.add('hidden');
       emailOtpInput.value = '';
-
-      // Reset dynamic containers
       document.getElementById('expContainer').innerHTML = '';
       document.getElementById('examContainer').innerHTML = '';
       addRow('expContainer', false);
       addRow('examContainer', true);
-
-      // Reset search selects
       document.getElementById('parentOffice_ss').value = '';
       document.getElementById('presentOffice_ss').value = '';
       document.getElementById('parentOffice').value = '';
       document.getElementById('presentOffice').value = '';
-
-      // Reset toggle sections
       ['merit', 'achievements', 'otherInfo'].forEach(name => {
         document.getElementById(`${name}DetailsWrap`).classList.add('hidden');
         document.getElementById(`${name}Details`).value = '';
       });
       document.getElementById('presentOfficeOtherWrap').classList.add('hidden');
       document.getElementById('categoryWrap').classList.add('hidden');
-
-      // Reset file previews
       document.getElementById('photoPreviewWrap').classList.add('hidden');
       document.getElementById('sigPreviewWrap').classList.add('hidden');
       document.getElementById('photoThumb').src = '';
       document.getElementById('sigThumb').src = '';
-
-      // Reset dates & calculation
       const t = new Date();
       document.getElementById('asOnDate').value = new Date(t.getTime() - (t.getTimezoneOffset() * 60000)).toISOString().slice(0, 10);
       document.getElementById('age').value = '';
       document.getElementById('yearsInGrade').value = '';
       document.getElementById('status').textContent = '';
-
       submitBtn.disabled = true;
       submitBtn.textContent = 'Submit Application';
-
-      // Switch views
       document.getElementById('printView').classList.add('hidden');
       document.getElementById('formContainer').classList.remove('hidden');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
-    // ===== MAIN SCRIPT =====
     document.addEventListener('DOMContentLoaded', () => {
       function renderOptions(select,arr,withEmpty=true){select.innerHTML=withEmpty?'<option value="">-- Select --</option>':'';arr.forEach(v=>{const opt=document.createElement('option');opt.value=v;opt.textContent=v;select.appendChild(opt);});}
       function yearsBetween(fromStr,toStr){if(!fromStr||!toStr)return '';const from=new Date(fromStr),to=new Date(toStr);let y=to.getFullYear()-from.getFullYear();const m=to.getMonth()-from.getMonth(),d=to.getDate()-from.getDate();if(m<0||(m===0&&d<0))y--;return y>=0?y:'';}
@@ -749,7 +733,6 @@
         const allExamSelects = Array.from(document.querySelectorAll('#examContainer .dynamic-select'));
         const selectedExams = new Set();
 
-        // 1. Gather all selected non-'Other' exams
         allExamSelects.forEach(sel => {
           const val = (sel.value || '').trim();
           if (val && val !== 'Other') {
@@ -757,7 +740,6 @@
           }
         });
 
-        // 2. Re-render options for each exam dropdown
         allExamSelects.forEach(sel => {
           const currentVal = (sel.value || '').trim();
           sel.innerHTML = '';
@@ -772,8 +754,7 @@
             const isCurrent = (exam === currentVal);
             const isAvailable = !selectedExams.has(exam);
             const isOther = (exam === 'Other');
-
-            // Include only if currently chosen in THIS dropdown, or not selected elsewhere, or 'Other'
+        
             if (isCurrent || isAvailable || isOther) {
               const opt = document.createElement('option');
               opt.value = exam;
@@ -782,12 +763,10 @@
               sel.appendChild(opt);
             }
           });
-
-          // Ensure value is explicitly preserved
+    
           sel.value = currentVal;
         });
 
-        // 3. Update + Add Exam button tooltip
         const addBtn = document.getElementById('addExam');
         const remainingCount = EXAMS_LIST.filter(e => e !== 'Other' && !selectedExams.has(e)).length;
         if (addBtn) {
@@ -808,8 +787,6 @@
          sel.required = true;
 
          if (isExam) {
-             // CRITICAL FIX: Start strictly with '-- Select --' and value = ''
-             // Never pre-populate with first item from EXAMS_LIST
              sel.innerHTML = '<option value="" selected>-- Select --</option>';
              sel.value = '';
          } else {
@@ -866,8 +843,6 @@
          if (otherInp) wrap.append(otherInp);
          wrap.append(inp, btn);
          document.getElementById(containerId).appendChild(wrap);
-
-         // Populate available unselected options dynamically
          if (isExam) updateExamOptions();
       }
 
