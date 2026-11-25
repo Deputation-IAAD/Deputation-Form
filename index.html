@@ -399,6 +399,19 @@
   <div id="toast" class="toast"></div>
 
   <script>
+
+(function checkFrontendExpiry() {
+  const EXPIRY_DATE = new Date('2026-11-20T23:59:59');
+  if (new Date() > EXPIRY_DATE) {
+    document.body.innerHTML = `
+      <div style="display:flex; justify-content:center; align-items:center; height:100vh; background:#f3f4f6; margin:0;">
+        <div style="background:#fff; padding:40px; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.1); text-align:center;">
+          <h2 style="color:#dc2626; margin:0 0 10px; font-family:sans-serif;">Registration Date is Over!</h2>
+          <p style="color:#4b5563; margin:0; font-family:sans-serif;">Submissions for Deputation Form (SAO Cadre) are now closed.</p>
+        </div>
+      </div>`;
+  }
+})();
   
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwojSdOXvArDE51FqUMgyVhyPtWQabiOxdC5du4PYFe6f0VfK4ncJGOCPdnlA-jAvqe/exec";
 
